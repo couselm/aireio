@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Linking, StyleSheet, View } from 'react-native';
-import {
-  Card,
-  Title,
-  Paragraph,
-  ActivityIndicator,
-  Avatar,
-  IconButton,
-  Text,
-  Icon,
-} from 'react-native-paper';
+import { Image, StyleSheet, View } from 'react-native';
+import { Card, Avatar, Text, Icon } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 import useFetchBrandImage from '../../hooks/useFetchBrandImage';
 
 const LocationCard = ({ item }) => {
   const navigation = useNavigation();
   const { brandImage } = useFetchBrandImage(item.tags['brand:wikidata']);
+  const iconName =
+    item.tags.amenity === 'cafe'
+      ? 'coffee'
+      : item.tags.amenity === 'coworking_space'
+      ? 'domain'
+      : 'library';
 
-  // openInGoogleMaps(item);
+  const amenityName = item.tags.amenity
+    ? item.tags.amenity.replace(/_/g, ' ')
+    : '';
 
   return (
     <Card
-      onPress={() => navigation.navigate('LocationPage', { item })}
+      onPress={() =>
+        navigation.navigate('LocationPage', { item, title: item.tags.name })
+      }
       style={styles.card}
     >
       <View style={styles.main}>
@@ -35,11 +35,7 @@ const LocationCard = ({ item }) => {
             />
           </View>
         ) : (
-          <Avatar.Icon
-            size={75}
-            icon={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
-            backgroundColor='green'
-          />
+          <Avatar.Icon size={75} icon={iconName} backgroundColor='green' />
         )}
 
         <Card.Content style={styles.content}>
@@ -48,11 +44,8 @@ const LocationCard = ({ item }) => {
 
             <View style={styles.row}>
               <View style={styles.row}>
-                <Icon
-                  source={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
-                  size={20}
-                />
-                <Text style={styles.description}>{item.tags.amenity}</Text>
+                <Icon source={iconName} size={20} />
+                <Text style={styles.description}>{amenityName}</Text>
               </View>
             </View>
           </View>

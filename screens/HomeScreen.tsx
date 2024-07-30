@@ -1,12 +1,18 @@
 import React from 'react';
-import { Button, Text } from 'react-native-paper';
-import { View, StyleSheet } from 'react-native';
+import { Button, Text, SegmentedButtons } from 'react-native-paper';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome to Aireio!</Text>
-      <Button mode='contained' onPress={() => navigation.navigate('Locations')}>
+      <Text style={styles.welcomeText}>Find Today's Workspace</Text>
+      <Button
+        icon='magnify'
+        mode='elevated'
+        onPress={() => navigation.navigate('Locations')}
+        buttonColor='green'
+        textColor='white'
+      >
         Locations
       </Button>
     </View>

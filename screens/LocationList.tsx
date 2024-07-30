@@ -6,25 +6,20 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  Drawer,
-  IconButton,
-  MD3Colors,
-  Label,
-  Checkbox,
-} from 'react-native-paper';
+import { Drawer, IconButton, MD3Colors, Button } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import LocationCard from '../components/locations/LocationCard';
+import ChipSelector from '../components/ui/ChipSelector';
 
 const CACHE_KEY = 'OSM_DATA_CACHE';
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
 const fetchOSMData = async (longitude, latitude, radius, types) => {
   try {
-    console.log('Fetching OSM data...');
     const typesQuery = types
       .map(
         (type) =>
@@ -45,7 +40,6 @@ const fetchOSMData = async (longitude, latitude, radius, types) => {
         'User-Agent': 'YourApp/1.0',
       },
     });
-    console.log('OSM data fetched:', response.data);
     return response.data.elements;
   } catch (error) {
     console.error(
@@ -58,7 +52,6 @@ const fetchOSMData = async (longitude, latitude, radius, types) => {
 
 const getCachedData = async (radius, types) => {
   try {
-    console.log('Reading cache...');
     const cachedData = await AsyncStorage.getItem(CACHE_KEY);
     if (cachedData) {
       const parsedData = JSON.parse(cachedData);
@@ -67,11 +60,9 @@ const getCachedData = async (radius, types) => {
         JSON.stringify(parsedData.types) === JSON.stringify(types) &&
         parsedData.timestamp + CACHE_DURATION > Date.now()
       ) {
-        console.log('Cache hit:', parsedData.data);
         return parsedData.data;
       }
     }
-    console.log('Cache miss or expired');
   } catch (error) {
     console.error('Error reading cache:', error);
   }
@@ -80,7 +71,6 @@ const getCachedData = async (radius, types) => {
 
 const setCachedData = async (data, radius, types) => {
   try {
-    console.log('Setting cache...');
     const cacheEntry = {
       data,
       radius,
@@ -88,7 +78,6 @@ const setCachedData = async (data, radius, types) => {
       timestamp: Date.now(),
     };
     await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(cacheEntry));
-    console.log('Cache set successfully');
   } catch (error) {
     console.error('Error setting cache:', error);
   }
@@ -98,7 +87,6 @@ const LocationList = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [active, setActive] = useState('');
   const [radius, setRadius] = useState(1000);
   const [selectedTypes, setSelectedTypes] = useState({
     cafe: true,
@@ -106,13 +94,13 @@ const LocationList = () => {
     coworking_space: false,
   });
 
+  const types = ['cafe', 'library', 'coworking_space'];
   const selectedTypesArray = Object.keys(selectedTypes).filter(
     (type) => selectedTypes[type],
   );
 
   const getLocations = async () => {
     try {
-      console.log('Fetching locations...');
       const cachedData = await getCachedData(radius, selectedTypesArray);
       if (cachedData && cachedData.length > 0) {
         setLocations(cachedData);
@@ -129,7 +117,6 @@ const LocationList = () => {
         await setCachedData(fetchedLocations, radius, selectedTypesArray);
       }
     } catch (error) {
-      console.error(error);
       Alert.alert('Error', 'Failed to fetch locations');
     } finally {
       setLoading(false);
@@ -160,89 +147,57 @@ const LocationList = () => {
         style={styles.filterButton}
         onPress={() => setDrawerVisible(true)}
       >
-        <IconButton icon='filter' size={30} color={MD3Colors.primary} />
+        <IconButton
+          icon='filter-variant'
+          size={40}
+          backgroundColor='green'
+          iconColor='white'
+        />
       </TouchableOpacity>
 
       {drawerVisible && (
         <View style={styles.drawerContainer}>
           <Drawer.Section title='Filter Settings'>
-            <Drawer.Item
-              label='Radius'
-              active={active === 'radius'}
-              onPress={() => setActive('radius')}
+            <Drawer.Item label='Radius' />
+            <RNPickerSelect
+              style={pickerSelectStyles}
+              onValueChange={(value) => setRadius(parseInt(value, 10))}
+              items={[
+                { label: '0.1 km', value: '100' },
+                { label: '0.5 km', value: '500' },
+                { label: '1 km', value: '1000' },
+                { label: '3 km', value: '3000' },
+                { label: '5 km', value: '5000' },
+                { label: '10 km', value: '10000' },
+              ]}
+              placeholder={{ label: 'Select Radius', value: null }}
+              value={radius.toString()}
             />
-            {active === 'radius' && (
-              <RNPickerSelect
-                style={pickerSelectStyles}
-                onValueChange={(value) => setRadius(parseInt(value, 10))}
-                items={[
-                  { label: '0.1 km', value: '100' },
-                  { label: '0.5 km', value: '500' },
-                  { label: '1 km', value: '1000' },
-                  { label: '3 km', value: '3000' },
-                  { label: '5 km', value: '5000' },
-                  { label: '10 km', value: '10000' },
-                ]}
-                placeholder={{ label: 'Select Radius', value: null }}
-                value={radius.toString()}
-              />
-            )}
-            <Drawer.Item
-              label='Venue Types'
-              active={active === 'venue'}
-              onPress={() => setActive('venue')}
+            <Drawer.Item label='Type' />
+            <ChipSelector
+              selectedTypes={selectedTypes}
+              setSelectedTypes={setSelectedTypes}
+              types={types}
             />
-
-            {active === 'venue' && (
-              <View>
-                <View style={styles.checkboxContainer}>
-                  <Checkbox
-                    status={selectedTypes.cafe ? 'checked' : 'unchecked'}
-                    onPress={() =>
-                      setSelectedTypes((prev) => ({
-                        ...prev,
-                        cafe: !prev.cafe,
-                      }))
-                    }
-                  />
-                  <Text>Cafe</Text>
-                </View>
-                <View style={styles.checkboxContainer}>
-                  <Checkbox
-                    status={selectedTypes.library ? 'checked' : 'unchecked'}
-                    onPress={() =>
-                      setSelectedTypes((prev) => ({
-                        ...prev,
-                        library: !prev.library,
-                      }))
-                    }
-                  />
-                  <Text>Library</Text>
-                </View>
-                <View style={styles.checkboxContainer}>
-                  <Checkbox
-                    status={
-                      selectedTypes.coworking_space ? 'checked' : 'unchecked'
-                    }
-                    onPress={() =>
-                      setSelectedTypes((prev) => ({
-                        ...prev,
-                        coworking_space: !prev.coworking_space,
-                      }))
-                    }
-                  />
-                  <Text>Co-working Space</Text>
-                </View>
-              </View>
-            )}
-            <Drawer.Item
-              label='Close Drawer'
-              active={active === 'close'}
+            <Button
+              label='Apply Filters'
               onPress={() => {
                 setDrawerVisible(false);
                 getLocations();
               }}
             />
+            <Button
+              icon='magnify'
+              mode='elevated'
+              onPress={() => {
+                setDrawerVisible(false);
+                getLocations();
+              }}
+              buttonColor='green'
+              textColor='white'
+            >
+              Apply Filters
+            </Button>
           </Drawer.Section>
         </View>
       )}
@@ -260,9 +215,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 30,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 50,
-    padding: 10,
+    // backgroundColor: '#f0f0f0',
+    borderRadius: 25,
+    // padding: 10,
   },
   drawerContainer: {
     position: 'absolute',

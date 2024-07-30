@@ -6,13 +6,17 @@ import {
   Linking,
   Image,
 } from 'react-native';
-import { Drawer, Text, Avatar } from 'react-native-paper';
+import { Drawer, Text, Avatar, Card } from 'react-native-paper';
 import useFetchBrandImage from '../hooks/useFetchBrandImage';
 import LocationDetails from '../components/locations/LocationDetails';
 
-const LocationPage = ({ route }) => {
-  const { item } = route.params;
+const LocationPage = ({ route, navigation }) => {
+  const { item, title } = route.params;
   const { tags } = item;
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: title });
+  }, [navigation, title]);
 
   const websiteName = tags.website
     ? tags.website.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0]
@@ -23,26 +27,32 @@ const LocationPage = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <View style={styles.brandImageContainer}>
-          {brandImage ? (
-            <View style={styles.brandImageWrapper}>
-              <Image
-                resizeMode='contain'
-                source={{ uri: brandImage }}
-                style={styles.brandImage}
-              />
+        <Card>
+          <Card.Content>
+            <View style={styles.row}>
+              <View style={styles.brandImageContainer}>
+                {brandImage ? (
+                  <View style={styles.brandImageWrapper}>
+                    <Image
+                      resizeMode='contain'
+                      source={{ uri: brandImage }}
+                      style={styles.brandImage}
+                    />
+                  </View>
+                ) : (
+                  <Avatar.Icon
+                    size={100}
+                    icon={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
+                    backgroundColor='green'
+                  />
+                )}
+              </View>
+              <View style={styles.textContainer}>
+                <Text variant='titleLarge'>{tags.name}</Text>
+              </View>
             </View>
-          ) : (
-            <Avatar.Icon
-              size={100}
-              icon={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
-              backgroundColor='green'
-            />
-          )}
-        </View>
-        <View style={styles.textContainer}>
-          <Text variant='titleLarge'>{tags.name}</Text>
-        </View>
+          </Card.Content>
+        </Card>
       </View>
 
       <LocationDetails item={item} />
@@ -60,7 +70,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginVertical: 10,
+    marginBottom: 30,
   },
   button: {
     marginTop: 20,
