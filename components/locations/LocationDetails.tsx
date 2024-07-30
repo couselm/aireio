@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Linking } from 'react-native';
 import React from 'react';
 import openInGoogleMaps from '../../utils/openInGoogleMaps';
 import { Icon } from 'react-native-paper';
@@ -69,6 +69,32 @@ const LocationDetails = ({ item }) => {
       <View style={styles.row}>
         <Icon source='clock' size={iconSize} />
         <Text style={styles.description}>{formattedOpeningHours}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.description}>
+          {`🪑 Seating: ${
+            item.tags.outdoor_seating === 'yes'
+              ? '✅ Outdoor'
+              : item.tags.indoor_seating === 'yes'
+              ? '✅ Indoor'
+              : item.tags.outdoor_seating || item.tags.indoor_seating
+              ? '🚫'
+              : '🤔'
+          }`}
+        </Text>
+      </View>
+
+      <View style={styles.row}>
+        <Text style={styles.description}>
+          {`🛜 Wi-Fi: ${
+            item.tags.internet_access
+              ? item.tags.internet_access === 'yes' ||
+                item.tags.internet_access === 'wlan'
+                ? '✅'
+                : '🚫'
+              : '🤔'
+          }`}
+        </Text>
       </View>
     </View>
   );

@@ -22,12 +22,20 @@ import LocationCard from '../components/locations/LocationCard';
 const CACHE_KEY = 'OSM_DATA_CACHE';
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
-const fetchOSMData = async (longitude, latitude, radius) => {
+const fetchOSMData = async (longitude, latitude, radius, types) => {
   try {
     console.log('Fetching OSM data...');
+    const typesQuery = types
+      .map(
+        (type) =>
+          `node["amenity"="${type}"](around:${radius},${latitude},${longitude});`,
+      )
+      .join('\n');
     const query = `
       [out:json];
-      node["amenity"="cafe"](around:${radius},${latitude},${longitude});
+      (
+        ${typesQuery}
+      );
       out body;
     `;
     const encodedQuery = encodeURIComponent(query.trim());
@@ -48,7 +56,7 @@ const fetchOSMData = async (longitude, latitude, radius) => {
   }
 };
 
-const getCachedData = async (radius) => {
+const getCachedData = async (radius, types) => {
   try {
     console.log('Reading cache...');
     const cachedData = await AsyncStorage.getItem(CACHE_KEY);
@@ -56,6 +64,7 @@ const getCachedData = async (radius) => {
       const parsedData = JSON.parse(cachedData);
       if (
         parsedData.radius === radius &&
+        JSON.stringify(parsedData.types) === JSON.stringify(types) &&
         parsedData.timestamp + CACHE_DURATION > Date.now()
       ) {
         console.log('Cache hit:', parsedData.data);
@@ -69,12 +78,13 @@ const getCachedData = async (radius) => {
   return null;
 };
 
-const setCachedData = async (data, radius) => {
+const setCachedData = async (data, radius, types) => {
   try {
     console.log('Setting cache...');
     const cacheEntry = {
       data,
       radius,
+      types,
       timestamp: Date.now(),
     };
     await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(cacheEntry));
@@ -100,34 +110,35 @@ const LocationList = () => {
     (type) => selectedTypes[type],
   );
 
-  useEffect(() => {
-    const getLocations = async () => {
-      try {
-        console.log('Fetching locations...');
-        const cachedData = await getCachedData(radius);
-        if (cachedData && cachedData.length > 0) {
-          setLocations(cachedData);
-        } else {
-          const longitude = -122.4194; // Example coordinates for San Francisco
-          const latitude = 37.7749;
-          const fetchedLocations = await fetchOSMData(
-            longitude,
-            latitude,
-            radius,
-          );
-          setLocations(fetchedLocations);
-          await setCachedData(fetchedLocations, radius);
-        }
-      } catch (error) {
-        console.error(error);
-        Alert.alert('Error', 'Failed to fetch locations');
-      } finally {
-        setLoading(false);
+  const getLocations = async () => {
+    try {
+      console.log('Fetching locations...');
+      const cachedData = await getCachedData(radius, selectedTypesArray);
+      if (cachedData && cachedData.length > 0) {
+        setLocations(cachedData);
+      } else {
+        const longitude = -122.4194; // Example coordinates for San Francisco
+        const latitude = 37.7749;
+        const fetchedLocations = await fetchOSMData(
+          longitude,
+          latitude,
+          radius,
+          selectedTypesArray,
+        );
+        setLocations(fetchedLocations);
+        await setCachedData(fetchedLocations, radius, selectedTypesArray);
       }
-    };
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Failed to fetch locations');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     getLocations();
-  }, [radius]);
+  }, []);
 
   if (loading) {
     return (
@@ -227,7 +238,10 @@ const LocationList = () => {
             <Drawer.Item
               label='Close Drawer'
               active={active === 'close'}
-              onPress={() => setDrawerVisible(false)}
+              onPress={() => {
+                setDrawerVisible(false);
+                getLocations();
+              }}
             />
           </Drawer.Section>
         </View>

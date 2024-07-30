@@ -52,19 +52,29 @@ const LocationCard = ({ item }) => {
                   source={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
                   size={20}
                 />
-                <Paragraph style={styles.description}>
-                  {item.tags.amenity}
-                </Paragraph>
+                <Text style={styles.description}>{item.tags.amenity}</Text>
               </View>
             </View>
           </View>
           <View style={styles.lowerRight}>
             <Card.Actions>
-              {(item.tags?.indoor_seating === 'yes' ||
-                item.tags?.outdoor_seating === 'yes') && (
-                <Paragraph>🪑</Paragraph>
+              {(item.tags.outdoor_seating || item.tags.indoor_seating) && (
+                <Text>
+                  {item.tags.indoor_seating === 'yes' ||
+                  item.tags.outdoor_seating === 'yes'
+                    ? '🪑'
+                    : '🧎'}
+                </Text>
               )}
-              <Paragraph>{`${item.tags.internet_access ? '🛜' : ''}`}</Paragraph>
+
+              {item.tags.internet_access && (
+                <Text>
+                  {item.tags.internet_access === 'yes' ||
+                  item.tags.internet_access === 'wlan'
+                    ? '🛜'
+                    : '🚫'}
+                </Text>
+              )}
             </Card.Actions>
           </View>
         </Card.Content>
