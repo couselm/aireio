@@ -1,126 +1,133 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Linking } from 'react-native';
-import { Card, XStack, YStack, Text, styled } from 'tamagui';
+import { Image, Linking, StyleSheet, View } from 'react-native';
+import {
+  Card,
+  Title,
+  Paragraph,
+  ActivityIndicator,
+  Avatar,
+  IconButton,
+  Text,
+  Icon,
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import useFetchBrandImage from '../../hooks/useFetchBrandImage';
 
 const LocationCard = ({ item }) => {
   const navigation = useNavigation();
-  const [brandImage, setBrandImage] = useState(null);
+  const { brandImage } = useFetchBrandImage(item.tags['brand:wikidata']);
 
-  const fetchBrandImage = async (wikidataId) => {
-    try {
-      const response = await axios.get(
-        `https://www.wikidata.org/wiki/Special:EntityData/${wikidataId}.json`,
-      );
-      const entity = response.data.entities[wikidataId];
-      if (entity && entity.claims) {
-        // Try to get logo (P154) first, then fallback to image (P18)
-        const logoClaim = entity.claims.P154 || entity.claims.P18;
-        if (logoClaim) {
-          const imageFileName = logoClaim[0].mainsnak.datavalue.value;
-          const encodedImageFileName = encodeURIComponent(
-            imageFileName.replace(/ /g, '_'),
-          );
-          return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodedImageFileName}`;
-        }
-      }
-      return null;
-    } catch (error) {
-      console.error('Error fetching brand image:', error);
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    const fetchImage = async () => {
-      const wikidataId = item.tags['brand:wikidata'];
-      if (wikidataId) {
-        const imageUrl = await fetchBrandImage(wikidataId);
-        setBrandImage(imageUrl);
-      }
-    };
-
-    fetchImage();
-  }, [item.tags]);
-
-  const openInGoogleMaps = () => {
-    const locationName = item.tags.name || '';
-    const address = `${item.tags['addr:housenumber'] || ''} ${
-      item.tags['addr:street'] || ''
-    }, ${item.tags['addr:city'] || ''}, ${item.tags['addr:state'] || ''} ${
-      item.tags['addr:postcode'] || ''
-    }`;
-    const query = `${locationName}, ${address}`.trim();
-    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      query,
-    )}`;
-    Linking.openURL(url).catch((err) =>
-      console.error('Error opening Google Maps', err),
-    );
-  };
+  // openInGoogleMaps(item);
 
   return (
     <Card
-      marginBottom='$2'
-      padding='$2'
-      elevate
-      size='$4'
-      bordered
-      // width={250}
-      height={100}
-      scale={0.9}
-      hoverStyle={{ scale: 0.925 }}
-      pressStyle={{ scale: 0.875 }}
-      animation='bouncy'
       onPress={() => navigation.navigate('LocationPage', { item })}
+      style={styles.card}
     >
-      <Card.Header>
-        <XStack space='$4'>
-          <YStack style={$brandImage}>
-            {brandImage && (
-              <Image source={{ uri: brandImage }} style={$brandImage} />
-            )}
-          </YStack>
-          <YStack flex={1}>
-            <StyledText fontWeight='bold'>{item.tags.name || ''}</StyledText>
-          </YStack>
-        </XStack>
-      </Card.Header>
-      <Card.Footer>
-        <XStack space='$2' justifyContent='space-between' flex={1}>
-          <StyledText>{item.tags.amenity}</StyledText>
-          {(item.tags?.indoor_seating === 'yes' ||
-            item.tags?.outdoor_seating === 'yes') && (
-            <StyledText>🪑</StyledText>
-          )}
-          <StyledText>
-            {`Wi-Fi: ${item.tags.internet_access ? '✓' : 'X'}`}
-          </StyledText>
-        </XStack>
-      </Card.Footer>
+      <View style={styles.main}>
+        {brandImage ? (
+          <View style={styles.brandImageWrapper}>
+            <Image
+              resizeMode='contain'
+              source={{ uri: brandImage }}
+              style={styles.brandImage}
+            />
+          </View>
+        ) : (
+          <Avatar.Icon
+            size={75}
+            icon={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
+            backgroundColor='green'
+          />
+        )}
+
+        <Card.Content style={styles.content}>
+          <View style={styles.col}>
+            <Text variant='titleMedium'>{item.tags.name || ''}</Text>
+
+            <View style={styles.row}>
+              <View style={styles.row}>
+                <Icon
+                  source={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
+                  size={20}
+                />
+                <Paragraph style={styles.description}>
+                  {item.tags.amenity}
+                </Paragraph>
+              </View>
+            </View>
+          </View>
+          <View style={styles.lowerRight}>
+            <Card.Actions>
+              {(item.tags?.indoor_seating === 'yes' ||
+                item.tags?.outdoor_seating === 'yes') && (
+                <Paragraph>🪑</Paragraph>
+              )}
+              <Paragraph>{`${item.tags.internet_access ? '🛜' : ''}`}</Paragraph>
+            </Card.Actions>
+          </View>
+        </Card.Content>
+      </View>
     </Card>
   );
 };
 
-// Styled components
-// const StyledCard = styled(Card, {
-//   marginBottom: '$4',
-//   elevate,
-//   size: '$4',
-//   bordered,
-// });
-
-const StyledText = styled(Text, {
-  fontSize: '$4',
-  color: '$gray11',
-  textTransform: 'capitalize',
+const styles = StyleSheet.create({
+  card: {
+    marginBottom: 15,
+    padding: 15,
+    height: 105,
+  },
+  description: {
+    textTransform: 'capitalize',
+    fontSize: 18,
+  },
+  brandImageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  brandImage: {
+    width: 65,
+    height: 65,
+    backgroundColor: 'white',
+    padding: 0,
+    borderRadius: 25,
+    margin: 0,
+  },
+  brandImageWrapper: {
+    width: 75,
+    height: 75,
+    backgroundColor: 'white',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    flexDirection: 'column',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  col: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  main: {
+    flexDirection: 'row',
+    width: '100%',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  lowerRight: {
+    position: 'absolute',
+    bottom: -10,
+    right: 0,
+  },
 });
-
-// Styles object for non-Tamagui components
-const $brandImage = {
-  width: 50,
-  height: 50,
-};
 
 export default LocationCard;

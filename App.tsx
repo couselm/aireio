@@ -1,6 +1,5 @@
 import React from 'react';
-import { Provider } from './Provider';
-import { useFonts } from 'expo-font';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
@@ -10,17 +9,8 @@ import LocationPage from './screens/LocationPage';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [loaded] = useFonts({
-    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
-    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
-  });
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
-    <Provider>
+    <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name='HomeScreen' component={HomeScreen} />
@@ -28,6 +18,6 @@ export default function App() {
           <Stack.Screen name='LocationPage' component={LocationPage} />
         </Stack.Navigator>
       </NavigationContainer>
-    </Provider>
+    </PaperProvider>
   );
 }

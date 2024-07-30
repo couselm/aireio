@@ -1,65 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
   Linking,
+  Image,
 } from 'react-native';
-import { XStack } from 'tamagui';
+import { Drawer, Text, Avatar } from 'react-native-paper';
+import useFetchBrandImage from '../hooks/useFetchBrandImage';
+import LocationDetails from '../components/locations/LocationDetails';
 
 const LocationPage = ({ route }) => {
   const { item } = route.params;
   const { tags } = item;
 
-  const openInGoogleMaps = () => {
-    const locationName = tags.name || '';
-    const address = `${tags['addr:housenumber'] || ''} ${
-      tags['addr:street'] || ''
-    }, ${tags['addr:city'] || ''}, ${tags['addr:state'] || ''} ${
-      tags['addr:postcode'] || ''
-    }`;
-    const query = `${locationName}, ${address}`.trim();
-    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      query,
-    )}`;
-    Linking.openURL(url).catch((err) =>
-      console.error('Error opening Google Maps', err),
-    );
-  };
+  const websiteName = tags.website
+    ? tags.website.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0]
+    : '';
+
+  const { brandImage } = useFetchBrandImage(item.tags['brand:wikidata']);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Location Name</Text>
-      <Text>{tags.name}</Text>
+      <View style={styles.row}>
+        <View style={styles.brandImageContainer}>
+          {brandImage ? (
+            <View style={styles.brandImageWrapper}>
+              <Image
+                resizeMode='contain'
+                source={{ uri: brandImage }}
+                style={styles.brandImage}
+              />
+            </View>
+          ) : (
+            <Avatar.Icon
+              size={100}
+              icon={item.tags.amenity === 'cafe' ? 'coffee' : 'library'}
+              backgroundColor='green'
+            />
+          )}
+        </View>
+        <View style={styles.textContainer}>
+          <Text variant='titleLarge'>{tags.name}</Text>
+        </View>
+      </View>
 
-      <Text style={styles.title}>Location Type</Text>
-      <Text style={styles.description}>{tags.amenity}</Text>
-
-      <Text style={styles.title}>Location Address</Text>
-      <XStack space={2}>
-        <Text>{tags['addr:housenumber']}</Text>
-        <Text>{tags['addr:street']}</Text>
-      </XStack>
-
-      <XStack space={2}>
-        <Text>{tags['addr:city'] + ','}</Text>
-        <Text>{tags['addr:state']}</Text>
-        <Text>{tags['addr:postcode']}</Text>
-      </XStack>
-
-      <Text style={styles.title}>Phone Number</Text>
-      <Text>{tags.phone}</Text>
-
-      <Text style={styles.title}>Website</Text>
-      <Text>{tags.website}</Text>
-
-      <Text style={styles.title}>Opening Hours</Text>
-      <Text>{tags.opening_hours}</Text>
-
-      <TouchableOpacity style={styles.button} onPress={openInGoogleMaps}>
-        <Text style={styles.buttonText}>Open in Google Maps</Text>
-      </TouchableOpacity>
+      <LocationDetails item={item} />
     </View>
   );
 };
@@ -72,15 +58,9 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 20,
-  },
-  description: {
-    fontSize: 16,
-    marginTop: 10,
-    textTransform: 'capitalize',
+  row: {
+    flexDirection: 'row',
+    marginVertical: 10,
   },
   button: {
     marginTop: 20,
@@ -92,5 +72,29 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  brandImageContainer: {
+    width: '25%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  brandImageWrapper: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  brandImage: {
+    width: '100%',
+    height: '100%',
+  },
+  textContainer: {
+    width: '75%',
+    paddingLeft: 20,
   },
 });
