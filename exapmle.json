@@ -1,0 +1,586 @@
+// Google Places List
+
+{
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 37.7670234,
+                    "lng": -122.4217806
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 37.7683690802915,
+                        "lng": -122.4205983697085
+                    },
+                    "southwest": {
+                        "lat": 37.7656711197085,
+                        "lng": -122.4232963302915
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
+            "icon_background_color": "#FF9E67",
+            "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+            "name": "Four Barrel Coffee",
+            "opening_hours": {
+                "open_now": false
+            },
+            "photos": [
+                {
+                    "height": 3000,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/106896493479665965355\">K L</a>"
+                    ],
+                    "photo_reference": "AelY_CsZ4yKD4pmZfRB88Su7tWo3BoBWsf9fy2EHQzdotsz3qynuQsoQodnNsKoqxe9wgwadZ2BbAklRrzF9oNIjCXnrL2q2wqeJoncbzq9YLWx9uXRcJRmMf0nAAcUKwfVP_d32snxOVSmTcsr-rXq5moCuayoGLVQn5G9xenjvsJwr5iRv",
+                    "width": 4000
+                }
+            ],
+            "place_id": "ChIJ__abjyF-j4ARmyuzGS1yOdc",
+            "plus_code": {
+                "compound_code": "QH8H+R7 Mission District, San Francisco, CA, USA",
+                "global_code": "849VQH8H+R7"
+            },
+            "price_level": 2,
+            "rating": 4.5,
+            "reference": "ChIJ__abjyF-j4ARmyuzGS1yOdc",
+            "scope": "GOOGLE",
+            "types": [
+                "cafe",
+                "store",
+                "food",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 2502,
+            "vicinity": "375 Valencia Street, San Francisco"
+        },
+
+// Google Places Details
+
+{
+    "html_attributions": [],
+    "result": {
+        "address_components": [
+            {
+                "long_name": "375",
+                "short_name": "375",
+                "types": [
+                    "street_number"
+                ]
+            },
+            {
+                "long_name": "Valencia Street",
+                "short_name": "Valencia St",
+                "types": [
+                    "route"
+                ]
+            },
+            {
+                "long_name": "Mission District",
+                "short_name": "Mission District",
+                "types": [
+                    "neighborhood",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "San Francisco",
+                "short_name": "SF",
+                "types": [
+                    "locality",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "San Francisco County",
+                "short_name": "San Francisco County",
+                "types": [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "California",
+                "short_name": "CA",
+                "types": [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "United States",
+                "short_name": "US",
+                "types": [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                "long_name": "94103",
+                "short_name": "94103",
+                "types": [
+                    "postal_code"
+                ]
+            }
+        ],
+        "adr_address": "<span class=\"street-address\">375 Valencia St</span>, <span class=\"locality\">San Francisco</span>, <span class=\"region\">CA</span> <span class=\"postal-code\">94103</span>, <span class=\"country-name\">USA</span>",
+        "business_status": "OPERATIONAL",
+        "curbside_pickup": false,
+        "current_opening_hours": {
+            "open_now": false,
+            "periods": [
+                {
+                    "close": {
+                        "date": "2024-08-04",
+                        "day": 0,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-08-04",
+                        "day": 0,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "date": "2024-08-05",
+                        "day": 1,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-08-05",
+                        "day": 1,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "date": "2024-07-30",
+                        "day": 2,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-07-30",
+                        "day": 2,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "date": "2024-07-31",
+                        "day": 3,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-07-31",
+                        "day": 3,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "date": "2024-08-01",
+                        "day": 4,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-08-01",
+                        "day": 4,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "date": "2024-08-02",
+                        "day": 5,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-08-02",
+                        "day": 5,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "date": "2024-08-03",
+                        "day": 6,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "date": "2024-08-03",
+                        "day": 6,
+                        "time": "0700"
+                    }
+                }
+            ],
+            "weekday_text": [
+                "Monday: 7:00 AM – 5:00 PM",
+                "Tuesday: 7:00 AM – 5:00 PM",
+                "Wednesday: 7:00 AM – 5:00 PM",
+                "Thursday: 7:00 AM – 5:00 PM",
+                "Friday: 7:00 AM – 5:00 PM",
+                "Saturday: 7:00 AM – 5:00 PM",
+                "Sunday: 7:00 AM – 5:00 PM"
+            ]
+        },
+        "delivery": false,
+        "dine_in": true,
+        "editorial_summary": {
+            "language": "en",
+            "overview": "Exposed beams create a sleek & rustic ambiance for this Mission cafe specializing in drip coffee."
+        },
+        "formatted_address": "375 Valencia St, San Francisco, CA 94103, USA",
+        "formatted_phone_number": "(415) 935-0604",
+        "geometry": {
+            "location": {
+                "lat": 37.7670234,
+                "lng": -122.4217806
+            },
+            "viewport": {
+                "northeast": {
+                    "lat": 37.7683690802915,
+                    "lng": -122.4205983697085
+                },
+                "southwest": {
+                    "lat": 37.7656711197085,
+                    "lng": -122.4232963302915
+                }
+            }
+        },
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/cafe-71.png",
+        "icon_background_color": "#FF9E67",
+        "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
+        "international_phone_number": "+1 415-935-0604",
+        "name": "Four Barrel Coffee",
+        "opening_hours": {
+            "open_now": false,
+            "periods": [
+                {
+                    "close": {
+                        "day": 0,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 0,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 1,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 1,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 2,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 2,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 3,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 3,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 4,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 4,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 5,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 5,
+                        "time": "0700"
+                    }
+                },
+                {
+                    "close": {
+                        "day": 6,
+                        "time": "1700"
+                    },
+                    "open": {
+                        "day": 6,
+                        "time": "0700"
+                    }
+                }
+            ],
+            "weekday_text": [
+                "Monday: 7:00 AM – 5:00 PM",
+                "Tuesday: 7:00 AM – 5:00 PM",
+                "Wednesday: 7:00 AM – 5:00 PM",
+                "Thursday: 7:00 AM – 5:00 PM",
+                "Friday: 7:00 AM – 5:00 PM",
+                "Saturday: 7:00 AM – 5:00 PM",
+                "Sunday: 7:00 AM – 5:00 PM"
+            ]
+        },
+        "photos": [
+            {
+                "height": 3000,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/106896493479665965355\">K L</a>"
+                ],
+                "photo_reference": "AelY_Cs0IIXFU0MecNtAp2XSFcVidtq7FYPqbI-3MsQ5PFtewXEYUjHb6tCn6DbJTqscSUrY_UG3A9Qfv4ouop59OjDQyMlgtSV0HjKxAInvAmZ6yE7XOQKnWg4vvf823ekuOXwk4U8Hkf9iU4fyWOeCVWPH_FYKzjoPKXMkOIp5vJABWLL1",
+                "width": 4000
+            },
+            {
+                "height": 344,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/104743172009835954981\">Four Barrel Coffee</a>"
+                ],
+                "photo_reference": "AelY_CuMKbD_ZF5x5bqx6uRyVNzI5cD_RyUXnE5esKvNk9DoaD8o4dILDus069DDNmqD8oLikvXFkjA-z4dp4Ryh5g1Th0GEXuWJhPYZTJye0ZrP47fUTfRK3UPXU2JPw_ml0B6HOwTar7TqRc84DiEA4hasftyY_Iftq09rGLh3FKmdqE07",
+                "width": 310
+            },
+            {
+                "height": 3024,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/114004157066136960873\">Cary Yen</a>"
+                ],
+                "photo_reference": "AelY_CviPedHJrjwxIYnwuHQ-g0WvT3goMWMHjMz5uRLG9fw-2kHaGsEhkov00rGjccgaVJCPto3v60siTqShdWXgYzPOYbAclyFxUB0jobUxPwo4khl7Zsl8uOWqD75QXrEt8r6hFCHxG_rRajfdD4xJPpzek3BgqX5e48KluS5OXW7slXW",
+                "width": 4032
+            },
+            {
+                "height": 4032,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/106915859434724270706\">Angel Phan</a>"
+                ],
+                "photo_reference": "AelY_CuxG3n_x2yh36Wo9-xui5A6368hJ6X2GuP2klS_PudYdEm-ho8of3DzjuS0yf4Tv0bkhqJJPHsRVmSZzQNVtEAmLf0vmUtfOJrhwbqiq7bBaZmwH_Z2jAvh-cD1xUeEe_UcwaBNg5cCamiZFBZKcvBn9JnTLetodWtXaQTDFQiXfta1",
+                "width": 3024
+            },
+            {
+                "height": 3024,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/102893516578148680333\">Joshua James</a>"
+                ],
+                "photo_reference": "AelY_Cugx4b2VXcOCXlOVW4AlmxU1sMw6yerbWogSi7-f99_WMr0s3TYC9i1y5JWeH-GBzd0Qna4gFT-pVGWTFDBHO4rOmkdsSwwj-9O5BArv_GpjQk9V70J5b4l6Ro3MBkSWLSeupoYiJryqxpBWVoqOYJbpHR1M-gHF1gsaY8dweNbg_QL",
+                "width": 4032
+            },
+            {
+                "height": 3072,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/101860856599082335201\">Tim Lin</a>"
+                ],
+                "photo_reference": "AelY_CvcMLlvpPXHmc9XUABGxglwgOA9Ecg54HlApZqLJmGsgKVNCvzDY9AJzkGAUbYItIUUHPU6Z2Q5upBTgXDnGs7eKQJQbFx3t28l5FbNvWi8TfBq7TDRQXMaouBF9m0nCZ9_gRpC6WwC-C8Buyj9ODbPevdJoAlf8HeUJlrg-Mo68hJi",
+                "width": 4080
+            },
+            {
+                "height": 3024,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/114004157066136960873\">Cary Yen</a>"
+                ],
+                "photo_reference": "AelY_Ctk1wzfCFB_BswT3H8_VnMYLH1F1UnagYZ6IUJoFJEfuhAt35dXftmSIBN-7CD8djL1W9mwxS3mAZPt_vZKKy8piGFc5iHBJzODQqCMcrQD-MIyUjSTGriQyae-BhpA4C1p2YYJPNIOq9b3krQoXc2S-5AaN82pGNjzX7_9DnQQ1nst",
+                "width": 4032
+            },
+            {
+                "height": 3024,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/109412168876944309655\">C Alexander (yorksgiftworld)</a>"
+                ],
+                "photo_reference": "AelY_CuhhQKYYkLugTBRVNcmMGaHYGm9jaYQkwgeBVOJRXVqIp5VM8jCQnzKQqElvlQWQKMUl1iUuxFYqoSXuV81RxbF087qqeTyAKL2YL5YwWz-AEsKbbF0xvl6vEY7eQW-CpTwSRVdjKeK3saS2Rj2sXLrwc-HWmulnkcC1SGo4iVkovD0",
+                "width": 4032
+            },
+            {
+                "height": 3024,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/102893516578148680333\">Joshua James</a>"
+                ],
+                "photo_reference": "AelY_CtrmpnNtSIuIStrnmlZROr4XO9mzgngIz6HZiBdSN4FI52kabYAq0toS5uIYb9V6YQLjhFItrdm-G-hn-Z0_c949r6Y2BV7N4cHfPcnMLRXv3s2hdTta_f9tSHbZ6mCrap1d-SLfzxizH7yXYQrpZiEk1WEtfUG0rYzZ0EORy1ykS2r",
+                "width": 4032
+            },
+            {
+                "height": 4032,
+                "html_attributions": [
+                    "<a href=\"https://maps.google.com/maps/contrib/104774532798829431075\">Mili Rovira</a>"
+                ],
+                "photo_reference": "AelY_Cvmtq2wgz_kDs6aGt1uWa0w4wovLn2CgRw2ZqYEWCSBGJ0qL9_-vK95pIMGny2F2saNr87egleHOLRkuxXUf9MXVnTfBSHgN6keb7W6X-bxMOYPbOShPY72rEwscMrLfSO9yfQ4xOw5EZYtF2utpiBfz6hw4fv7hWrBcJQkCFy8Uqeq",
+                "width": 3024
+            }
+        ],
+        "place_id": "ChIJ__abjyF-j4ARmyuzGS1yOdc",
+        "plus_code": {
+            "compound_code": "QH8H+R7 Mission District, San Francisco, CA, USA",
+            "global_code": "849VQH8H+R7"
+        },
+        "price_level": 2,
+        "rating": 4.5,
+        "reference": "ChIJ__abjyF-j4ARmyuzGS1yOdc",
+        "reservable": false,
+        "reviews": [
+            {
+                "author_name": "S P",
+                "author_url": "https://www.google.com/maps/contrib/104620860874988725431/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/ALV-UjUqrnBlzK4X-NaxzAtf3OoTxT72BGt0qQxXF6LhLQQH5M5G-g0=s128-c0x00000000-cc-rp-mo",
+                "rating": 5,
+                "relative_time_description": "2 weeks ago",
+                "text": "My favorite coffee shop in the city\n\nEver since getting into coffee as a hobby I’ve been going around all the roasters in the city trying all the different beans. four barrel is my favorite — I’ve tried most so far. Many are very good this one just slightly tops them for me\n\nThey also have extremely knowledgeable and helpful, very professional baristas. I’ve had many chats with them when stopping by and they’re always patient in making recommendations and answering questions. Today chatted with Day who gave many helpful suggestions on improving my home brews, and educated me on their different beans\n\nLove the vibe here. True coffee lovers\n\nThey also offer classes and FREE tastings on Saturday (see attached pic)",
+                "time": 1720907993,
+                "translated": false
+            },
+            {
+                "author_name": "Joshua James",
+                "author_url": "https://www.google.com/maps/contrib/102893516578148680333/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a/ACg8ocLA-aWsxXuRiNFjL8ALH1BxwqsKOy7XtXwtZuOOwb7UmcL9XxU=s128-c0x00000000-cc-rp-mo",
+                "rating": 5,
+                "relative_time_description": "2 months ago",
+                "text": "Best coffee in SF? Had an amazing interaction with Sergio. And when coffee is this geeked out it’s like really good drugs and not a frenetic and anxiety high.  It’s a high high and goes really well with the amazing pastry selection! Espresso, good tunes spinning on vinyl, and where to go if you want to the best that SF has to offer when it comes to coffee.  Try their cold brew coffee in the cans too!!",
+                "time": 1715613725,
+                "translated": false
+            },
+            {
+                "author_name": "Raul Delgado",
+                "author_url": "https://www.google.com/maps/contrib/116349918790541624048/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/ALV-UjVeVpCrCCHkkoACEb3C7P3rvjptvMz4rdZRUwXLYCRTRCW6qtjsyw=s128-c0x00000000-cc-rp-mo-ba4",
+                "rating": 5,
+                "relative_time_description": "3 weeks ago",
+                "text": "Ordered the Macchiato and spiced cherry cake. Coffee was fresh and delicious. The spice cake added the sweetness that accompanied my latte. Definitely recommend checking it out.",
+                "time": 1720201395,
+                "translated": false
+            },
+            {
+                "author_name": "Jiseob Kim",
+                "author_url": "https://www.google.com/maps/contrib/107947950562373084097/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a-/ALV-UjW7s1PWTkDO406-3MteIAvVeeVPh7JtUluV9i7ZSlzfUizeDdLr=s128-c0x00000000-cc-rp-mo-ba4",
+                "rating": 5,
+                "relative_time_description": "7 months ago",
+                "text": "This cafe was a top highlight of my San Francisco trip! The staff were exceptionally professional and friendly. I was captivated by the hip ambience and the art-inspired decor. The quality of the coffee exceeded my expectations. I ordered a cortado, which offered a rich and robust flavor profile that truly showcased the quality of the beans. Watching the meticulous process of selecting, roasting, grinding, and brewing the coffee was a delight. For anyone visiting the city, I strongly recommend stopping by this cafe to experience their exceptional coffee and unique atmosphere.",
+                "time": 1703121401,
+                "translated": false
+            },
+            {
+                "author_name": "J Frank (JF1973)",
+                "author_url": "https://www.google.com/maps/contrib/104541713152926846161/reviews",
+                "language": "en",
+                "original_language": "en",
+                "profile_photo_url": "https://lh3.googleusercontent.com/a/ACg8ocK6R6GJT0zZ3mAjoWbnvSUpqHtnHUB8HAbV3CJ9mbSRA5dy2A=s128-c0x00000000-cc-rp-mo-ba5",
+                "rating": 5,
+                "relative_time_description": "5 months ago",
+                "text": "Four Barrel Coffee is a must-visit for any coffee lover looking for a top-notch cappuccino experience. Their expertly crafted cappuccinos are rich, creamy, and perfectly balanced in flavor. The coffee beans are sourced ethically and roasted in-house, resulting in a fresh and flavorful drink every time. The ambiance at Four Barrel is trendy and inviting, with friendly baristas who are passionate about their craft. The attention to detail in every cup of cappuccino is truly impressive, making each visit a delightful experience. Whether you're a seasoned coffee connoisseur or just looking for a delicious pick-me-up, Four Barrel's cappuccinos are sure to impress. Don't miss out on this hidden gem in the world of specialty coffee – it's a true standout in the San Francisco coffee scene.",
+                "time": 1708022505,
+                "translated": false
+            }
+        ],
+        "serves_beer": false,
+        "serves_breakfast": true,
+        "serves_brunch": false,
+        "serves_dinner": false,
+        "serves_lunch": false,
+        "serves_vegetarian_food": false,
+        "serves_wine": false,
+        "takeout": true,
+        "types": [
+            "cafe",
+            "store",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "url": "https://maps.google.com/?cid=15508552329857280923",
+        "user_ratings_total": 2502,
+        "utc_offset": -420,
+        "vicinity": "375 Valencia Street, San Francisco",
+        "website": "http://www.fourbarrelcoffee.com/",
+        "wheelchair_accessible_entrance": true
+    },
+    "status": "OK"
+}
+
+// OSM Data
+
+        {
+            "type": "node",
+            "id": 411083201,
+            "lat": 37.7670162,
+            "lon": -122.4219251,
+            "tags": {
+                "addr:housenumber": "375",
+                "addr:street": "Valencia Street",
+                "amenity": "cafe",
+                "check_date": "2023-02-26",
+                "cost:coffee": "$3",
+                "cuisine": "coffee_shop",
+                "name": "Four Barrel Coffee",
+                "name:en": "Four Barrel Coffee",
+                "outdoor_seating": "yes",
+                "payment:credit_cards": "yes",
+                "wheelchair": "yes"
+            }
+        },
+
+
+// OSM All Fields
+
+        {
+            "type": "node",
+            "id": 411083201,
+            "lat": 37.7670162,
+            "lon": -122.4219251,
+            "tags": {
+                "addr:housenumber": "375",
+                "addr:street": "Valencia Street",
+                "addr:postcode": "94102",
+                "addr:state": "CA",
+		        "level": "2",
+                "amenity": "cafe",
+                "branch": "Fox Plaza",
+                "brand": "Starbucks",
+                "brand:wikidata": "Q37158",
+                "check_date": "2023-05-17",
+                "cuisine": "coffee_shop",
+                "name": "Starbucks",
+                "official_name": "Starbucks Coffee",
+                "opening_hours": "Mo-Fr 05:00-19:00; Sa-Su 06:00-18:00",
+                "phone": "+1 415-863-8332",
+                "contact:facebook": "https://www.facebook.com/internetnetarchive/",
+                "contact:instagram": "https://www.instagram.com/internetarchive/?hl=en",
+                "contact:mastodon": "https://mastodon.archive.org/@internetarchive",
+                "contact:tiktok": "https://www.tiktok.com/@weareinternetarchive",
+                "contact:twitter": "https://twitter.com/internetarchive?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",
+                "contact:youtube": "https://youtube.com/@internetarchive_?si=Tbh2qWyUYOJ_G3Cg",                "email": "mbamgr@sfpl.org",
+                "takeaway": "only",
+                "website": "https://www.starbucks.com/store-locator/store/13881/fox-plaza-1390-market-street-107-san-francisco-ca-941025403-",
+		        "internet_access": “wlan”,
+		        "internet_access:fee": "no",
+		"outdoor_seating": "yes",
+		“indoor_seating": "yes",
+                "description": "\"A Co-Working Space for Writers.\" Similar to a co-op, interview and paid membership required. ",
+                "note": "Is this a restaurant or a bar? Or a coffee shop?”,
+		“toilet”:”yes”,
+		“”outlets”:”no”,
+		"wheelchair": "limited" || "yes”,
+		 "cost:coffee": "$3",
+
+}
+        },
+
+

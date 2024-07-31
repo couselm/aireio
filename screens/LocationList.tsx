@@ -6,60 +6,48 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
-  SafeAreaView,
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Drawer, IconButton, MD3Colors, Button } from 'react-native-paper';
+import { IconButton, Button, Drawer } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import LocationCard from '../components/locations/LocationCard';
 import ChipSelector from '../components/ui/ChipSelector';
+import { GOOGLE_PLACES_API_KEY } from '@env';
 
-const CACHE_KEY = 'OSM_DATA_CACHE';
+const CACHE_KEY = 'GOOGLE_PLACES_CACHE';
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
-const fetchOSMData = async (longitude, latitude, radius, types) => {
+const fetchGooglePlaces = async (longitude, latitude, radius, types) => {
   try {
-    const typesQuery = types
-      .map(
-        (type) =>
-          `node["amenity"="${type}"](around:${radius},${latitude},${longitude});`,
-      )
-      .join('\n');
-    const query = `
-      [out:json];
-      (
-        ${typesQuery}
-      );
-      out body;
-    `;
-    const encodedQuery = encodeURIComponent(query.trim());
-    const url = `https://overpass-api.de/api/interpreter?data=${encodedQuery}`;
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': 'YourApp/1.0',
-      },
+    const typeQueries = types.map(async (type) => {
+      if (type === 'coworking_space') {
+        const keywordUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&keyword=coworking%20space&key=${GOOGLE_PLACES_API_KEY}`;
+        const keywordResponse = await axios.get(keywordUrl);
+        return keywordResponse.data.results;
+      } else {
+        const typeUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=${type}&key=${GOOGLE_PLACES_API_KEY}`;
+        const typeResponse = await axios.get(typeUrl);
+        return typeResponse.data.results;
+      }
     });
-    return response.data.elements;
+    const results = await Promise.all(typeQueries);
+    return results.flat(); // Flatten the array of arrays
   } catch (error) {
     console.error(
-      'Error fetching OSM data:',
+      'Error fetching Google Places data:',
       error.response?.data || error.message,
     );
     return [];
   }
 };
 
-const getCachedData = async (radius, types) => {
+const getCachedData = async () => {
   try {
     const cachedData = await AsyncStorage.getItem(CACHE_KEY);
     if (cachedData) {
       const parsedData = JSON.parse(cachedData);
-      if (
-        parsedData.radius === radius &&
-        JSON.stringify(parsedData.types) === JSON.stringify(types) &&
-        parsedData.timestamp + CACHE_DURATION > Date.now()
-      ) {
+      if (parsedData.timestamp + CACHE_DURATION > Date.now()) {
         return parsedData.data;
       }
     }
@@ -69,12 +57,10 @@ const getCachedData = async (radius, types) => {
   return null;
 };
 
-const setCachedData = async (data, radius, types) => {
+const setCachedData = async (data) => {
   try {
     const cacheEntry = {
       data,
-      radius,
-      types,
       timestamp: Date.now(),
     };
     await AsyncStorage.setItem(CACHE_KEY, JSON.stringify(cacheEntry));
@@ -83,15 +69,22 @@ const setCachedData = async (data, radius, types) => {
   }
 };
 
-const LocationList = () => {
+const filterLocations = (data, types) => {
+  return data.filter((location) =>
+    location.types.some((type) => types.includes(type)),
+  );
+};
+
+const LocationList = ({ navigation }) => {
   const [locations, setLocations] = useState([]);
+  const [allLocations, setAllLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [radius, setRadius] = useState(1000);
+  const [radius, setRadius] = useState(10000); // Initial radius set to 10KM
   const [selectedTypes, setSelectedTypes] = useState({
     cafe: true,
-    library: false,
-    coworking_space: false,
+    library: true,
+    coworking_space: true,
   });
 
   const types = ['cafe', 'library', 'coworking_space'];
@@ -101,26 +94,32 @@ const LocationList = () => {
 
   const getLocations = async () => {
     try {
-      const cachedData = await getCachedData(radius, selectedTypesArray);
+      const cachedData = await getCachedData();
       if (cachedData && cachedData.length > 0) {
-        setLocations(cachedData);
+        setAllLocations(cachedData);
+        setLocations(filterLocations(cachedData, selectedTypesArray));
       } else {
         const longitude = -122.4194; // Example coordinates for San Francisco
         const latitude = 37.7749;
-        const fetchedLocations = await fetchOSMData(
+        const fetchedLocations = await fetchGooglePlaces(
           longitude,
           latitude,
           radius,
           selectedTypesArray,
         );
-        setLocations(fetchedLocations);
-        await setCachedData(fetchedLocations, radius, selectedTypesArray);
+        setAllLocations(fetchedLocations);
+        setLocations(filterLocations(fetchedLocations, selectedTypesArray));
+        await setCachedData(fetchedLocations);
       }
     } catch (error) {
       Alert.alert('Error', 'Failed to fetch locations');
     } finally {
       setLoading(false);
     }
+  };
+
+  const applyFilters = () => {
+    setLocations(filterLocations(allLocations, selectedTypesArray));
   };
 
   useEffect(() => {
@@ -139,8 +138,15 @@ const LocationList = () => {
     <View style={styles.container}>
       <FlatList
         data={locations}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <LocationCard item={item} />}
+        keyExtractor={(item) => item.place_id.toString()}
+        renderItem={({ item }) => (
+          <LocationCard
+            item={item}
+            onPress={() =>
+              navigation.navigate('LocationPage', { item, title: item.name })
+            }
+          />
+        )}
       />
 
       <TouchableOpacity
@@ -183,7 +189,7 @@ const LocationList = () => {
               label='Apply Filters'
               onPress={() => {
                 setDrawerVisible(false);
-                getLocations();
+                applyFilters();
               }}
             />
             <Button
@@ -191,7 +197,7 @@ const LocationList = () => {
               mode='elevated'
               onPress={() => {
                 setDrawerVisible(false);
-                getLocations();
+                applyFilters();
               }}
               buttonColor='green'
               textColor='white'
@@ -215,9 +221,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 30,
     right: 30,
-    // backgroundColor: '#f0f0f0',
     borderRadius: 25,
-    // padding: 10,
   },
   drawerContainer: {
     position: 'absolute',
