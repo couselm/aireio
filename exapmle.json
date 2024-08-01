@@ -22,8 +22,7 @@
             "icon_background_color": "#FF9E67",
             "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/cafe_pinlet",
             "name": "Four Barrel Coffee",
-            "opening_hours": {
-                "open_now": false
+            "": false
             },
             "photos": [
                 {
@@ -513,7 +512,7 @@
         "wheelchair_accessible_entrance": true
     },
     "status": "OK"
-}
+},
 
 // OSM Data
 
@@ -569,16 +568,16 @@
                 "contact:youtube": "https://youtube.com/@internetarchive_?si=Tbh2qWyUYOJ_G3Cg",                "email": "mbamgr@sfpl.org",
                 "takeaway": "only",
                 "website": "https://www.starbucks.com/store-locator/store/13881/fox-plaza-1390-market-street-107-san-francisco-ca-941025403-",
-		        "internet_access": “wlan”,
+		        "internet_access": "wlan",
 		        "internet_access:fee": "no",
-		"outdoor_seating": "yes",
-		“indoor_seating": "yes",
+		        "outdoor_seating": "yes",
+		        "indoor_seating": "yes",
                 "description": "\"A Co-Working Space for Writers.\" Similar to a co-op, interview and paid membership required. ",
-                "note": "Is this a restaurant or a bar? Or a coffee shop?”,
-		“toilet”:”yes”,
-		“”outlets”:”no”,
-		"wheelchair": "limited" || "yes”,
-		 "cost:coffee": "$3",
+                "note": "Is this a restaurant or a bar? Or a coffee shop?" ,
+		        "toilet":"yes",
+		        "outlets":"no",
+		        "wheelchair": "limited",
+		        "cost:coffee": "$3",
 
 }
         },
