@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -9,13 +9,13 @@ import {
 import { Button, Text, Searchbar, List } from 'react-native-paper';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import MapView, { Marker, Circle } from 'react-native-maps';
 import { GOOGLE_PLACES_API_KEY } from '@env';
-import MapView, { Marker } from 'react-native-maps';
 
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState(null);
   const [region, setRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -32,7 +32,7 @@ export default function HomeScreen({ navigation }) {
 
     let location = await Location.getCurrentPositionAsync({});
     const { latitude, longitude } = location.coords;
-
+    setLocation({ latitude, longitude });
     setRegion({
       latitude,
       longitude,
@@ -56,12 +56,10 @@ export default function HomeScreen({ navigation }) {
   };
 
   const fetchSuggestions = async (query) => {
-    setLoading(true);
     const response = await axios.get(
       `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${query}&types=(cities)&key=${GOOGLE_PLACES_API_KEY}`,
     );
     setSuggestions(response.data.predictions);
-    setLoading(false);
   };
 
   const searchUserLocation = () => {
@@ -72,7 +70,6 @@ export default function HomeScreen({ navigation }) {
     setSearchQuery(description);
     setSuggestions([]);
 
-    // Get the coordinates for the selected place
     const response = await axios.get(
       `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${GOOGLE_PLACES_API_KEY}`,
     );
@@ -91,15 +88,15 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.welcomeText}>Find Today's Workspace</Text>
       <Searchbar
         style={styles.searchBar}
-        placeholder='Search'
+        placeholder="Search"
         onChangeText={(query) => {
           setSearchQuery(query);
           fetchSuggestions(query);
         }}
         value={searchQuery}
-        icon='magnify'
+        icon="magnify"
         onIconPress={searchUserLocation}
-        traileringIcon='near-me'
+        traileringIcon="near-me"
         onTraileringIconPress={getUserLocation}
       />
       {suggestions.length > 0 && (
@@ -118,22 +115,15 @@ export default function HomeScreen({ navigation }) {
         />
       )}
       <Button
-        icon='magnify'
-        mode='elevated'
+        icon="magnify"
+        mode="elevated"
         onPress={() => navigation.navigate('Locations')}
-        buttonColor='green'
-        textColor='white'
+        buttonColor="green"
+        textColor="white"
       >
         Locations
       </Button>
-      <MapView style={styles.map} region={region}>
-        <Marker
-          coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude,
-          }}
-        />
-      </MapView>
+      <MapView style={styles.map} region={region} />
     </View>
   );
 }
@@ -141,9 +131,8 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 50,
   },
   welcomeText: {
     fontSize: 20,
@@ -155,7 +144,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: Dimensions.get('window').width,
-    height: 300,
+    height: Dimensions.get('window').height / 2,
     marginTop: 20,
   },
 });
