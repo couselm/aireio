@@ -36,6 +36,14 @@
         "projectId": "4637204c-6cfc-453e-9c3e-cd974b0bc023"
       }
     },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow YourAppName to use your location."
+        }
+      ]
+    ],
     "owner": "couselm"
   }
 }
